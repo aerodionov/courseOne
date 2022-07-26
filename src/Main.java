@@ -5,12 +5,9 @@ public class Main {
 
     //Получить список всех сотрудников со всеми имеющимися по ним данными (вывести в консоль значения всех полей (toString))
     public static void printAllData(Employee[] employees) {
-        String separator = "";
         for (int i = 0; i < employees.length; i++) {
             if (employees[i] != null) {
-                System.out.print(separator);
-                System.out.print(employees[i].toString());
-                separator = ", ";
+                System.out.println(employees[i].toString());
             }
         }
         System.out.println();
@@ -33,15 +30,15 @@ public class Main {
         int indexEmployee = -1;
 
         for (int i = 0; i < employees.length; i++) {
-            if (employees[i] != null) {
-                if (indexEmployee == -1) {
-                    minSalary = employees[i].getSalary();
-                    indexEmployee = i;
-                } else if (employees[i].getSalary() < minSalary) {
-                    minSalary = employees[i].getSalary();
-                    indexEmployee = i;
-                }
-
+            if (employees[i] == null) {
+                continue;
+            }
+            if (indexEmployee == -1) {
+                minSalary = employees[i].getSalary();
+                indexEmployee = i;
+            } else if (employees[i].getSalary() < minSalary) {
+                minSalary = employees[i].getSalary();
+                indexEmployee = i;
             }
         }
         return employees[indexEmployee];
@@ -54,14 +51,10 @@ public class Main {
 
         for (int i = 0; i < employees.length; i++) {
             if (employees[i] != null) {
-                if (indexEmployee == -1) {
-                    maxSalary = employees[i].getSalary();
-                    indexEmployee = i;
-                } else if (employees[i].getSalary() > maxSalary) {
+                if (employees[i].getSalary() > maxSalary) {
                     maxSalary = employees[i].getSalary();
                     indexEmployee = i;
                 }
-
             }
         }
         return employees[indexEmployee];
@@ -82,12 +75,9 @@ public class Main {
 
     //Получить Ф. И. О. всех сотрудников (вывести в консоль).
     public static void printAllFullName(Employee[] employees) {
-        String separator = "";
         for (int i = 0; i < employees.length; i++) {
             if (employees[i] != null) {
-                //System.out.println(separator);
-                System.out.print(separator + employees[i].getFullName());
-                separator = ",\n";
+                System.out.println(employees[i].getFullName());
             }
         }
         System.out.println();
@@ -107,17 +97,12 @@ public class Main {
         float minSalary = -1f;
         int indexEmployee = -1;
         for (int i = 0; i < employees.length; i++) {
-            if (employees[i] != null) {
-                if (employees[i].getDepartment() == department) {
-                    if (indexEmployee == -1) {
-                        minSalary = employees[i].getSalary();
-                        indexEmployee = i;
-                    } else if (employees[i].getSalary() < minSalary) {
-                        minSalary = employees[i].getSalary();
-                        indexEmployee = i;
-                    }
-                }
-
+            if (employees[i] == null) {
+                continue;
+            }
+            if ((employees[i].getDepartment() == department) && ((indexEmployee == -1) || (employees[i].getSalary() < minSalary))) {
+                    minSalary = employees[i].getSalary();
+                    indexEmployee = i;
             }
         }
         return employees[indexEmployee];
@@ -128,17 +113,12 @@ public class Main {
         float maxSalary = -1f;
         int indexEmployee = -1;
         for (int i = 0; i < employees.length; i++) {
-            if (employees[i] != null) {
-                if (employees[i].getDepartment() == department) {
-                    if (indexEmployee == -1) {
-                        maxSalary = employees[i].getSalary();
-                        indexEmployee = i;
-                    } else if (employees[i].getSalary() > maxSalary) {
-                        maxSalary = employees[i].getSalary();
-                        indexEmployee = i;
-                    }
-                }
-
+            if (employees[i] == null) {
+                continue;
+            }
+            if ((employees[i].getDepartment() == department) && (employees[i].getSalary() > maxSalary)) {
+                maxSalary = employees[i].getSalary();
+                indexEmployee = i;
             }
         }
         return employees[indexEmployee];
@@ -185,26 +165,24 @@ public class Main {
 
     //Получить в качестве параметра номер отдела (1–5) и напечатать всех сотрудников отдела (все данные, кроме отдела).
     public static void printDepartmentData (Employee[] employees, int department) {
-        String separator = "";
         for (int i = 0; i < employees.length; i++) {
-            if (employees[i] != null) {
-                if (employees[i].getDepartment() == department) {
-                    System.out.print(separator);
-                    System.out.print(employees[i].toStringDepartment());
-                    separator = ", ";
-                }
+            if (employees[i] == null) {
+                continue;
+            }
+            if (employees[i].getDepartment() == department) {
+                System.out.println(employees[i].toStringDepartment());
             }
         }
-        System.out.println();
     }
 
     //Получить в качестве параметра число и найти всех сотрудников с зарплатой меньше числа (вывести id, Ф. И. О. и зарплатой вконсоль)
     public static void printEmployeeSalaryLess (Employee[] employees, float lessThen) {
         for (int i = 0; i < employees.length; i++) {
-            if (employees[i] != null) {
-                if (employees[i].getSalary() < lessThen) {
-                    System.out.println(employees[i].toStringDepartment());
-                }
+            if (employees[i] == null) {
+                continue;
+            }
+            if (employees[i].getSalary() < lessThen) {
+                System.out.println(employees[i].toStringDepartment());
             }
         }
     }
@@ -212,10 +190,11 @@ public class Main {
     //Получить в качестве параметра число и найти всех сотрудников с зарплатой больше (или равно) числа (вывести id, Ф. И. О. и зарплатой в консоль)
     public static void printEmployeeSalaryMore (Employee[] employees, float moreThen) {
         for (int i = 0; i < employees.length; i++) {
-            if (employees[i] != null) {
-                if (employees[i].getSalary() >= moreThen) {
-                    System.out.println(employees[i].toStringDepartment());
-                }
+            if (employees[i] == null) {
+                continue;
+            }
+            if (employees[i].getSalary() >= moreThen) {
+                System.out.println(employees[i].toStringDepartment());
             }
         }
     }
